@@ -29,7 +29,7 @@ class Produit:
         """
         self.Type = p_type_produit
         self.__numeroSerie = p_numero_serie
-        self.__titrePorduit = p_titre_produit
+        self.__titreProduit = p_titre_produit
         self.__langueOriginal = p_langue_original
         self.__anneeSortie = p_annee_sortie
         self.__genre = p_genre
@@ -45,12 +45,12 @@ class Produit:
         """
         return self.__numeroSerie
 
-    def _set_numeroSerie(self, p_numero):
+    def _set_numeroSerie(self, p_numeroS):
         """
             Mutateur de l'attribut privé __numeroSerie
         """
-        if len(p_numero) == 7 and p_numero[0].isalpha() is True and p_numero[1:6].isnumeric() is True:
-            self.__numeroSerie = p_numero
+        if len(p_numeroS) == 7 and p_numeroS[0].isalpha() is True and p_numeroS[1:6].isnumeric() is True:
+            self.__numeroSerie = p_numeroS
 
     NumeroSerie = property(_get_numeroSerie, _set_numeroSerie)
 
@@ -59,14 +59,14 @@ class Produit:
         """
             Accesseur de l'attribut privé __titreProduit
         """
-        return self.__titrePorduit
+        return self.__titreProduit
 
     def _set_titreProduit(self, p_titre):
         """
             Mutateur de l'attribut privé __titreProduit
         """
         if len(p_titre) <= 100:
-            self.__titrePorduit = p_titre
+            self.__titreProduit = p_titre
 
     TitreProduit = property(_get_titreProduit, _set_titreProduit)
 
@@ -129,7 +129,7 @@ class Produit:
         """
         chaine =  " "*60+"\n"+"*"*60+"\n\n"
         chaine += "   Type de produit : " + self.Type + "\n"
-        chaine += "   Numéro de série : " + self.NumeroSerie + "\n"
+        chaine += "   Numéro de série : " + str(self.NumeroSerie) + "\n"
         chaine += "   Titre du produit : " + self.TitreProduit + "\n"
         chaine += "   Langue original : " + self.LangueOriginal + "\n"
         chaine += "   Année de sortie/publication : " + str(self.AnneeSortie) + "\n"
