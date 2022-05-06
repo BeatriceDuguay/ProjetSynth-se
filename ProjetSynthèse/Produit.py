@@ -21,12 +21,13 @@ class Produit:
     """
     Classe parent Produit
     """
-    def __init__(self, p_numero_serie = "", p_titre_produit = "", p_langue_original = "", p_annee_sortie = 0,
+    def __init__(self, p_type_produit = "",p_numero_serie = "", p_titre_produit = "", p_langue_original = "", p_annee_sortie = 0,
                  p_genre = ""):
         """
             Méthode de type Constructeur avec paramètres et valeurs par défaut
             Définition des attributs publics d'un étudiant
         """
+        self.Type = p_type_produit
         self.__numeroSerie = p_numero_serie
         self.__titrePorduit = p_titre_produit
         self.__langueOriginal = p_langue_original
@@ -37,6 +38,7 @@ class Produit:
 ####   Propriétés, accesseurs et mutateurs    ####
 ##################################################
 
+    # propriété __numeroSerie
     def _get_numeroSerie(self):
         """
             Accesseur de l'attribut privé __numeroSerie
@@ -52,6 +54,7 @@ class Produit:
 
     NumeroSerie = property(_get_numeroSerie, _set_numeroSerie)
 
+    # propriété __titreProduit
     def _get_titreProduit(self):
         """
             Accesseur de l'attribut privé __titreProduit
@@ -67,6 +70,7 @@ class Produit:
 
     TitreProduit = property(_get_titreProduit, _set_titreProduit)
 
+    # propriété __langueOriginal
     def _get_langueOriginal(self):
         """
             Accesseur de l'attribut privé __langueOriginal
@@ -82,6 +86,7 @@ class Produit:
 
     LangueOriginal = property(_get_langueOriginal, _set_langueOriginal)
 
+    # propriété __anneeSortie
     def _get_anneeSortie(self):
         """
             Accesseur de l'attribut privé __anneeSortie
@@ -97,6 +102,7 @@ class Produit:
 
     AnneeSortie = property(_get_anneeSortie, _set_anneeSortie)
 
+    # propriété __genre
     def _get_genre(self):
         """
             Accesseur de l'attribut privé __genre
@@ -122,10 +128,11 @@ class Produit:
             :return: Chaine à afficher
         """
         chaine =  " "*60+"\n"+"*"*60+"\n\n"
-        chaine += "   Numéro de série : " + self.NumeroSerie
-        chaine += "   Titre du produit : " + self.TitreProduit
-        chaine += "   Langue original : " + self.LangueOriginal
-        chaine += "   Année de sortie/publication : " + str(self.AnneeSortie)
-        chaine += "   Genre : " + self.Genre
+        chaine += "   Type de produit : " + self.Type + "\n"
+        chaine += "   Numéro de série : " + self.NumeroSerie + "\n"
+        chaine += "   Titre du produit : " + self.TitreProduit + "\n"
+        chaine += "   Langue original : " + self.LangueOriginal + "\n"
+        chaine += "   Année de sortie/publication : " + str(self.AnneeSortie) + "\n"
+        chaine += "   Genre : " + self.Genre + "\n"
         return chaine
 
