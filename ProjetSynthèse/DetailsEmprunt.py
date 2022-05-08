@@ -4,7 +4,7 @@
 ###  Nom: Béatrice Duguay
 ###  No étudiant: 1724602
 ###  No Groupe: 002
-###  Description du fichier: Description de la classe DetailEmprunt
+###  Description du fichier: Description de la classe DetailsEmprunt
 ####################################################################################
 
 
@@ -18,9 +18,9 @@ from Produit import *
 #####  MÉTHODE CONSTRUCTEUR  #####
 ###################################
 
-class DetailEmprunt:
+class DetailsEmprunt:
     """
-    Classe DetailEmprunt
+    Classe DetailsEmprunt
     """
     def __init__(self, p_numeroDetailEmprunt = "", p_produit = Produit, p_quantite_produit = 0):
         """
