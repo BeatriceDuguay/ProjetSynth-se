@@ -12,6 +12,7 @@
 ###  IMPORTATIONS - Portée globale  ###
 #######################################
 
+# pour le séréalisation et la désérialisation
 import json
 
 ###################################
@@ -32,7 +33,7 @@ class Abonne:
         self.__nomAbonne = p_nom_abonne
         self.__prenomAbonne = p_prenom_abonne
         self.__dateNaissAbonne = p_date_naiss
-        self.Liste_emprunts = p_emprunts
+        self.ListeEmprunts = p_emprunts
 
 ##################################################
 ####   Propriétés, accesseurs et mutateurs    ####
@@ -65,7 +66,7 @@ class Abonne:
         """
             Mutateur de l'attribut privé __nomAbonne
         """
-        if len(p_nom) <= 50:
+        if p_nom.isalpha() is True:
             self.__nomAbonne = p_nom
 
     NomAbonne = property(_get_nomAbonne, _set_nomAbonne)
@@ -81,7 +82,7 @@ class Abonne:
         """
             Mutateur de l'attribut privé __prenomAbonne
         """
-        if len(p_prenom) <= 50:
+        if p_prenom.isalpha() is True:
             self.__prenomAbonne = p_prenom
 
     PrenomAbonne = property(_get_prenomAbonne, _set_prenomAbonne)
@@ -117,10 +118,10 @@ class Abonne:
         """
 
         chaine =  " "*60+"\n"+"*"*60+"\n\n"
-        chaine += "   Numéro de l'abonné(e) : " + self.__numeroAbonne + "\n"
-        chaine += "   Nom de l'abonné(e) : " + self.__prenomAbonne + " " +self.__nomAbonne + "\n"
-        # chaine += "   Date de naissance de l'abonné(e) : "+str(self.DateNaissAbonne.year())+"-" + \
-        #          str(self.DateNaissAbonne.month())+"-"+ str(self.DateNaissAbonne.day()) + "\n"
+        chaine += "   Numéro de l'abonné(e) : " + self.NumeroAbonne + "\n\n"
+        chaine += "   Nom de l'abonné(e) : " + self.PrenomAbonne + " " + self.NomAbonne + "\n\n"
+        chaine += "   Date de naissance de l'abonné(e) : "+str(self.DateNaissAbonne.year())+"-" + \
+                 str(self.DateNaissAbonne.month())+"-"+ str(self.DateNaissAbonne.day()) + "\n"
         return chaine
 
 #############################
@@ -169,15 +170,4 @@ class Abonne:
         except:
             return 2
 
-#################### CODE UTILISÉ: ###################
-# Fichier de code : Serialisation                    #
-# Par : Hasna Hocini                                 #
-######################################################
-    def deserialiserAbonne(self, p_fichier):
-        """
-            Méthode permttant de désérialiser un objet de la classe Abonne
-            ::param p_fichier : Le nom du fichier qui contient l'objet sérialisé
-        """
 
-        with open(p_fichier , "r") as fichier :
-            self.__dict__ = json.load(fichier)
