@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>808</width>
-    <height>704</height>
+    <height>851</height>
    </rect>
   </property>
   <property name="palette">
@@ -542,7 +542,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>180</y>
+     <y>290</y>
      <width>251</width>
      <height>41</height>
     </rect>
@@ -552,7 +552,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>140</y>
+     <y>250</y>
      <width>271</width>
      <height>41</height>
     </rect>
@@ -571,7 +571,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>290</y>
+     <y>400</y>
      <width>251</width>
      <height>41</height>
     </rect>
@@ -591,7 +591,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>400</y>
+     <y>510</y>
      <width>251</width>
      <height>41</height>
     </rect>
@@ -622,7 +622,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>510</y>
+     <y>620</y>
      <width>251</width>
      <height>41</height>
     </rect>
@@ -662,7 +662,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>250</y>
+     <y>360</y>
      <width>271</width>
      <height>41</height>
     </rect>
@@ -681,7 +681,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>360</y>
+     <y>470</y>
      <width>271</width>
      <height>41</height>
     </rect>
@@ -700,7 +700,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>470</y>
+     <y>580</y>
      <width>271</width>
      <height>41</height>
     </rect>
@@ -794,8 +794,8 @@
   <widget class="QPushButton" name="pushButton_produit">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>610</y>
+     <x>240</x>
+     <y>740</y>
      <width>131</width>
      <height>41</height>
     </rect>
@@ -807,14 +807,14 @@
     </font>
    </property>
    <property name="text">
-    <string>Produit</string>
+    <string>Détails produit</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_erreurNumeroDetailEmpruntInvalide">
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>220</y>
+     <y>330</y>
      <width>311</width>
      <height>41</height>
     </rect>
@@ -833,7 +833,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>220</y>
+     <y>330</y>
      <width>311</width>
      <height>41</height>
     </rect>
@@ -852,7 +852,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>330</y>
+     <y>440</y>
      <width>311</width>
      <height>41</height>
     </rect>
@@ -871,7 +871,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>560</y>
+     <y>670</y>
      <width>311</width>
      <height>41</height>
     </rect>
@@ -890,7 +890,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>560</y>
+     <y>670</y>
      <width>311</width>
      <height>41</height>
     </rect>
@@ -979,6 +979,92 @@
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aa0000;&quot;&gt;Le genre du produit est invalide&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_quitterDetailsEmprunt">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>740</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Yu Gothic UI Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Quitter</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_numeroEmprunt">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>180</y>
+     <width>251</width>
+     <height>41</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_numeroEmprunt">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>140</y>
+     <width>201</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Yu Gothic UI Light</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Numéro de l'emprunt</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_erreurNumeroEmpruntInexistant">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>220</y>
+     <width>311</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Yu Gothic UI Light</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aa0000;&quot;&gt;Le numéro de l'emprunt est inexistant&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_erreurNumeroEmpruntInvalide">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>220</y>
+     <width>311</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Yu Gothic UI Light</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aa0000;&quot;&gt;Le numéro de l'emprunt est invalide&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
  </widget>
