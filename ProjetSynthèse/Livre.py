@@ -12,7 +12,7 @@
 ###  IMPORTATIONS - Portée globale  ###
 #######################################
 
-from Produit import *
+from Produit import Produit
 import json
 
 ###################################
@@ -23,13 +23,15 @@ class Livre (Produit):
     """
     Classe dérivée Livre de la classe parent Produit
     """
-    def __init__(self, p_type_produit = "", p_numero_serie = "", p_titre_produit = "", p_langue_original = "", p_annee_sortie = 0,
-                 p_genre = "", p_maison_edition = "", p_nom_auteur ="", p_prenom_auteur ="", p_nombre_pages =0):
+    def __init__(self, p_type_produit = "", p_numero_serie = "", p_titre_produit = "", p_langue_original = "",
+                 p_annee_sortie = "",p_genre = "", p_maison_edition = "", p_nom_auteur ="", p_prenom_auteur ="",
+                 p_nombre_pages = ""):
         """
             Méthode de type Constructeur avec paramètres et valeurs par défaut
             Définition des attributs publics d'un étudiant
         """
-        Produit.__init__(self, p_type_produit, p_numero_serie, p_titre_produit, p_langue_original, p_annee_sortie, p_genre)
+        Produit.__init__(self, p_type_produit, p_numero_serie, p_titre_produit, p_langue_original, p_annee_sortie,
+                         p_genre)
         self.__maisonEdition = p_maison_edition
         self.__nomAuteur = p_nom_auteur
         self.__prenomAuteur = p_prenom_auteur
@@ -46,12 +48,12 @@ class Livre (Produit):
         """
         return self.__maisonEdition
 
-    def _set_maisonEdition(self, p_maisonEdi):
+    def _set_maisonEdition(self, p_maison_edi):
         """
             Mutateur de l'attribut privé __maisonEdition
         """
-        if len(p_maisonEdi) <= 100:
-            self.__maisonEdition = p_maisonEdi
+        if len(p_maison_edi) <= 100:
+            self.__maisonEdition = p_maison_edi
 
     MaisonEdition = property(_get_maisonEdition, _set_maisonEdition)
 
@@ -65,7 +67,7 @@ class Livre (Produit):
         """
             Mutateur de l'attribut privé __nomAuteur
         """
-        if len(p_nom) <= 50:
+        if len(p_nom) <= 50 and p_nom.isalpha() is True:
             self.__nomAuteur = p_nom
 
     NomAuteur = property(_get_nomAuteur, _set_nomAuteur)
@@ -81,7 +83,7 @@ class Livre (Produit):
         """
             Mutateur de l'attribut privé
         """
-        if len(p_prenom) <= 50:
+        if len(p_prenom) <= 50 and p_prenom.isalpha() is True:
             self.__prenomAuteur = p_prenom
 
     PrenomAuteur = property(_get_prenomAuteur, _set_prenomAuteur)
@@ -97,7 +99,7 @@ class Livre (Produit):
         """
             Mutateur de l'attribut privé __nombrePages
         """
-        if p_nb_pages >= 0:
+        if p_nb_pages.isnumeric() and int(p_nb_pages) >= 0:
             self.__nombrePages = p_nb_pages
 
     NombrePages = property(_get_nombrePages, _set_nombrePages)
@@ -112,10 +114,10 @@ class Livre (Produit):
             :return: Chaine à afficher
         """
         chaine =  " "*60+"\n"+"*"*60+"\n\n"
-        chaine += Produit
+        chaine += Produit().__str__()
         chaine += "   Maison d'édition : " + self.MaisonEdition + "\n"
         chaine += "   Nom de l'auteur : " + self.PrenomAuteur + " " + self.NomAuteur + "\n"
-        chaine += "   Nombre de pages : " + str(self.NombrePages) + "\n"
+        chaine += "   Nombre de pages : " + self.NombrePages + "\n"
 
 #############################
 #####  AUTRES MÉTHODES  #####

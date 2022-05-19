@@ -22,13 +22,14 @@ class Jeu (Produit):
     """
     Classe dérivée Jeu de la classe parent Produit
     """
-    def __init__(self, p_type_produit = "", p_numero_serie = "", p_titre_produit = "", p_langue_original = "", p_annee_sortie = 0,
-                 p_genre = "", p_developpeur_jeu="", p_moteur_jeu ="", p_console_jeu =""):
+    def __init__(self, p_type_produit = "", p_numero_serie = "", p_titre_produit = "", p_langue_original = "",
+                 p_annee_sortie = "",p_genre = "", p_developpeur_jeu = "", p_moteur_jeu = "", p_console_jeu = ""):
         """
             Méthode de type Constructeur avec paramètres et valeurs par défaut
             Définition des attributs publics d'un jeu
         """
-        Produit.__init__(self, p_type_produit, p_numero_serie, p_titre_produit, p_langue_original, p_annee_sortie, p_genre)
+        Produit.__init__(self, p_type_produit, p_numero_serie, p_titre_produit, p_langue_original, p_annee_sortie,
+                         p_genre)
         self.__developpeurJeu = p_developpeur_jeu
         self.__moteurJeu = p_moteur_jeu
         self.ConsoleJeu = p_console_jeu
@@ -78,7 +79,7 @@ class Jeu (Produit):
             :return: Chaine à afficher
         """
         chaine = " " * 60 + "\n" + "*" * 60 + "\n\n"
-        chaine += Produit
+        chaine += Produit().__str__()
         chaine += "   Développeur du jeu : " + self.DeveloppeurJeu + "\n"
-        chaine += "   Moteur du jeu : " + self.MoteurJeu + "\n"
+        chaine += "   Moteur du jeu : " + str(self.MoteurJeu) + "\n"
         chaine += "   Console  : " + self.ConsoleJeu + "\n"

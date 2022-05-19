@@ -12,7 +12,7 @@
 ###  IMPORTATIONS - Portée globale  ###
 #######################################
 
-from Produit import *
+from Produit import Produit
 
 ###################################
 #####  MÉTHODE CONSTRUCTEUR  #####
@@ -22,13 +22,15 @@ class Film (Produit):
     """
     Classe dérivée Film de la classe parent Produit
     """
-    def __init__(self, p_type_produit = "",p_numero_serie = "", p_titre_produit = "", p_langue_original = "", p_annee_sortie = 0,
-                 p_genre = "", p_societe_production="", p_nom_realisateur="", p_prenom_realisateur="", p_duree_film=0):
+    def __init__(self, p_type_produit = "",p_numero_serie = "", p_titre_produit = "", p_langue_original = "",
+                 p_annee_sortie = "", p_genre = "", p_societe_production = "", p_nom_realisateur = "",
+                 p_prenom_realisateur = "", p_duree_film= ""):
         """
             Méthode de type Constructeur avec paramètres et valeurs par défaut
             Définition des attributs publics d'un film
         """
-        Produit.__init__(self, p_type_produit, p_numero_serie, p_titre_produit, p_langue_original, p_annee_sortie, p_genre)
+        Produit.__init__(self, p_type_produit, p_numero_serie, p_titre_produit, p_langue_original,
+                         p_annee_sortie, p_genre)
         self.__societeProduction = p_societe_production
         self.__nomRealisateur = p_nom_realisateur
         self.__prenomRealisateur = p_prenom_realisateur
@@ -67,7 +69,7 @@ class Film (Produit):
         """
             Mutateur de l'attribut privé __nomRealisateur
         """
-        if p_nom.isalpha is True:
+        if p_nom.isalpha() is True:
             self.__nomRealisateur = p_nom
 
     NomRealisateur = property(_get_nomRealisateur, _set_nomRealisateur)
@@ -83,7 +85,7 @@ class Film (Produit):
         """
             Mutateur de l'attribut privé __prenomRealisateur
         """
-        if p_prenom.isalpha is True:
+        if p_prenom.isalpha() is True:
             self.__prenomRealisateur = p_prenom
 
     PrenomRealisateur = property(_get_prenomRealisateur, _set_prenomRealisateur)
@@ -99,7 +101,7 @@ class Film (Produit):
         """
             Mutateur de l'attribut privé __dureeFilm
         """
-        if p_duree >= 0:
+        if p_duree.isnumeric() and int(p_duree) >= 0:
             self.__dureeFilm = p_duree
 
     DureeFilm = property(_get_dureeFilm, _set_dureeFilm)
@@ -113,7 +115,7 @@ class Film (Produit):
             :return: Chaine à afficher
         """
         chaine =  " "*60+"\n"+"*"*60+"\n\n"
-        #chaine +=     Produit
-        chaine += "   Société de production : " + self.SocieteProduction + "\n"
-        chaine += "   Nom du réalisateur : " + self.PrenomRealisateur + " " + self.NomRealisateur + "\n"
-        chaine += "   Durée du film : " + str(self.DureeFilm) + " minutes" + "\n"
+        #chaine += Produit().__str__()
+        chaine += "   Société de production : " + self.SocieteProduction + "\n\n"
+        chaine += "   Nom du réalisateur : " + self.PrenomRealisateur + " " + self.NomRealisateur + "\n\n"
+        chaine += "   Durée du film : " + self.DureeFilm + " minutes" + "\n\n"

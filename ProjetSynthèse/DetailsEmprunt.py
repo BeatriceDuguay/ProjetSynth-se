@@ -22,7 +22,7 @@ class DetailsEmprunt:
     """
     Classe DetailsEmprunt
     """
-    def __init__(self, p_numeroDetailEmprunt = "", p_produit = Produit, p_quantite_produit = 0):
+    def __init__(self, p_numeroDetailEmprunt = "", p_produit = Produit, p_quantite_produit = ""):
         """
             Méthode de type Constructeur avec paramètres et valeurs par défaut
             Définition des attributs publics d'un détail d'emprunt
@@ -62,7 +62,7 @@ class DetailsEmprunt:
         """
             Mutateur de l'attribur privé __quantiteProduit
         """
-        if p_qte_produit >= 0:
+        if p_qte_produit.isnumeric() and int(p_qte_produit) >= 0:
             self.__quantiteProduit = p_qte_produit
 
     QuantiteProduit = property(_get_quantiteProduit, _set_quantiteProduit)
@@ -78,7 +78,7 @@ class DetailsEmprunt:
         """
         chaine =  " "*60+"\n"+"*"*60+"\n\n"
         chaine += "   Numéro du détail de l'emprunt : " + self.NumeroDetailEmprunt + "\n"
-        chaine += str(self.Produit) + "\n"
-        chaine += "   Quantité de produit : " + str(self.QuantiteProduit ) + "\n"
+        #chaine += Produit().__str__()
+        chaine += "   Quantité de produit : " + self.QuantiteProduit + "\n"
 
 

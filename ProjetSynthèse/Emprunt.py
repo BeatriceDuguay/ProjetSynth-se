@@ -10,12 +10,11 @@
 #######################################
 ###  IMPORTATIONS - Portée globale  ###
 #######################################
-
+import Abonne
 from Abonne import *
-import datetime
 
 ###################################
-#####  MÉTHODE CONSTRUCTEUR  #####
+#####  MÉTHODE CONSTRUCTEUR  ######
 ###################################
 
 class Emprunt:
@@ -24,7 +23,7 @@ class Emprunt:
     """
 
     def __init__(self, p_numero_emprunt= "", p_date_emprunt= "",p_succurcale= "", p_det_emprunt = [],
-                 p_abonne = Abonne):
+                 p_abonne = Abonne()):
         """
             Méthode de type Constructeur avec paramètres et valeurs par défaut
             Définition des attributs publics d'un étudiant
@@ -32,7 +31,7 @@ class Emprunt:
         self.__numeroEmprunt = p_numero_emprunt
         self.__dateEmprunt = p_date_emprunt
         self.Succurcale = p_succurcale
-        self.Liste_emprunt = p_det_emprunt
+        self.ListeDetailsEmprunt = p_det_emprunt
         self.Abonne = p_abonne
 
 
@@ -67,8 +66,7 @@ class Emprunt:
         """
             Mutateur de l'attribur privé __dateEmprunt
         """
-        today = datetime.date.today
-        if today > p_date:
+        if self.date(p_date) >= 0 :
             self.__dateEmprunt = p_date
 
     DateEmprunt = property(_get_dateEmprunt, _set_dateEmprunt)
@@ -78,14 +76,38 @@ class Emprunt:
 #####  MÉTHODE MAGIQUE  #####
 #############################
 
+
     def __str__(self):
         """
             Méthode spéciale d'affichage. À utiliser avec print(objet)
             :return: Chaine à afficher
         """
         chaine = " " * 60 + "\n" + "*" * 60 + "\n\n"
-        chaine += "   Numéro de l'emprunt : " + self.NumeroEmprunt + "\n"
-        chaine += "   Date de l'emprunt : " + self.DateEmprunt + "\n"
-        chaine += "   Succurcale : " + self.Succurcale + "\n"
-        chaine += "   Détails de l'emprunt : " + str(self.Liste_emprunt) + "\n"
-        chaine += "   Détails de l'abonné : " + str(self.Abonne)
+        chaine += "   Numéro de l'emprunt : " + self.NumeroEmprunt + "\n\n"
+        # chaine += "   Date de l'emprunt : "+str(self.DateEmprunt.year())+"-" + \
+        #          str(self.DateEmprunt.month())+"-"+ str(self.DateEmprunt.day()) + "\n\n"
+        chaine += "   Succurcale : " + self.Succurcale + "\n\n"
+
+        for elt in self.ListeDetailsEmprunt :
+            chaine += elt.__str__()
+
+        return chaine
+
+#############################
+#####  AUTRES MÉTHODES  #####
+#############################
+
+#################### CODE UTILISÉ: ###################
+# Fichier de code : Exercice 1 - Interface graphique #
+# Par : Hasna Hocini                                 #
+######################################################
+    def date(self, p_date_emp):
+        """
+           Méthode permettant de calculer l'age de l'emprunt
+           :: return : retourne l'âge de l'emprunt
+        """
+        import datetime
+        today = datetime.date.today()
+        date = today.year - p_date_emp.year() - (
+                (today.month, today.day) < (p_date_emp.month(), p_date_emp.day()))
+        return date

@@ -15,6 +15,7 @@
 # pour le séréalisation et la désérialisation
 import json
 
+
 ###################################
 #####  MÉTHODE CONSTRUCTEUR  #####
 ###################################
@@ -23,8 +24,9 @@ class Abonne:
     """
     Classe Abonne
     """
-    def __init__(self, p_numero_abonne ="", p_nom_abonne= "", p_prenom_abonne= "", p_date_naiss= "",
-                 p_emprunts = []):
+
+    def __init__(self, p_numero_abonne="", p_nom_abonne="", p_prenom_abonne="", p_date_naiss="",
+                 p_emprunts=[]):
         """
             Méthode de type Constructeur avec paramètres et valeurs par défaut
             Définition des attributs publics d'un abonne
@@ -35,9 +37,9 @@ class Abonne:
         self.__dateNaissAbonne = p_date_naiss
         self.ListeEmprunts = p_emprunts
 
-##################################################
-####   Propriétés, accesseurs et mutateurs    ####
-##################################################
+    ##################################################
+    ####   Propriétés, accesseurs et mutateurs    ####
+    ##################################################
 
     # propriété __numeroAbonne
     def _get_numeroAbonne(self):
@@ -94,44 +96,47 @@ class Abonne:
         """
         return self.__dateNaissAbonne
 
-#################### CODE UTILISÉ: ###################
-# Fichier de code : Exercice 1 - Interface graphique #
-# Par : Hasna Hocini                                 #
-######################################################
+    #################### CODE UTILISÉ: ###################
+    # Fichier de code : Exercice 1 - Interface graphique #
+    # Par : Hasna Hocini                                 #
+    ######################################################
     def _set_dateNaissAbonne(self, p_date_naiss):
         """
             Mutateur de l'attribut privé __dateNaissAbonne
         """
-        if self.age(p_date_naiss) >= 12 :
+        if self.age(p_date_naiss) >= 12:
             self.__dateNaissAbonne = p_date_naiss
 
     DateNaissAbonne = property(_get_dateNaissAbonne, _set_dateNaissAbonne)
 
-#############################
-#####  MÉTHODE MAGIQUE  #####
-#############################
+    #############################
+    #####  MÉTHODE MAGIQUE  #####
+    #############################
 
     def __str__(self):
         """
             Méthode spéciale d'affichage. À utiliser avec print(objet)
             :return: Chaine à afficher
         """
-
-        chaine =  " "*60+"\n"+"*"*60+"\n\n"
+        chaine = " " * 60 + "\n" + "*" * 60 + "\n\n"
         chaine += "   Numéro de l'abonné(e) : " + self.NumeroAbonne + "\n\n"
         chaine += "   Nom de l'abonné(e) : " + self.PrenomAbonne + " " + self.NomAbonne + "\n\n"
-        chaine += "   Date de naissance de l'abonné(e) : "+str(self.DateNaissAbonne.year())+"-" + \
-                 str(self.DateNaissAbonne.month())+"-"+ str(self.DateNaissAbonne.day()) + "\n"
+        # chaine += "   Date de naissance de l'abonné(e) : "+str(self.DateNaissAbonne.year())+"-" + \
+        #          str(self.DateNaissAbonne.month())+"-"+ str(self.DateNaissAbonne.day()) + "\n"
+
+        for elt in self.ListeEmprunts:
+            chaine += elt.__str__()
+
         return chaine
 
-#############################
-#####  AUTRES MÉTHODES  #####
-#############################
+    #############################
+    #####  AUTRES MÉTHODES  #####
+    #############################
 
-#################### CODE UTILISÉ: ###################
-# Fichier de code : Exercice 1 - Interface graphique #
-# Par : Hasna Hocini                                 #
-######################################################
+    #################### CODE UTILISÉ: ###################
+    # Fichier de code : Exercice 1 - Interface graphique #
+    # Par : Hasna Hocini                                 #
+    ######################################################
     def age(self, p_date_naiss):
         """
            Méthode permettant de calculer l'age de l'abonne
@@ -143,10 +148,10 @@ class Abonne:
                 (today.month, today.day) < (p_date_naiss.month(), p_date_naiss.day()))
         return age
 
-#################### CODE UTILISÉ: ###################
-# Fichier de code : Exercice 1 - Interface graphique #
-# Par : Hasna Hocini                                 #
-######################################################
+    #################### CODE UTILISÉ: ###################
+    # Fichier de code : Exercice 1 - Interface graphique #
+    # Par : Hasna Hocini                                 #
+    ######################################################
     def serialiserAbonne(self, p_fichier):
         """
             Méthode permttant de sérialiser un objet de la classe Abonne
@@ -155,19 +160,17 @@ class Abonne:
                        1 s'il y a erreur d'écriture et 2 s'il y a erreur d'ouverture
         """
 
-        self.__dict__["_Abonne__dateNaissAbonne"]=str(self.DateNaissAbonne.year())+"-"+\
-                                                  str(self.DateNaissAbonne.month())+"-"\
-                                                  +str(self.DateNaissAbonne.day())
+        self.__dict__["_Abonne__dateNaissAbonne"] = str(self.DateNaissAbonne.year()) + "-" + \
+                                                    str(self.DateNaissAbonne.month()) + "-" \
+                                                    + str(self.DateNaissAbonne.day())
 
         try:
-            with open(p_fichier , "w") as fichier:
+            with open(p_fichier, "w") as fichier:
                 try:
-                    #json.dump(self.__dict__, fichier)
-                    json.dump(self.__dict__,fichier)
+                    # json.dump(self.__dict__, fichier)
+                    json.dump(self.__dict__, fichier)
                     return 0
                 except:
                     return 1
         except:
             return 2
-
-
