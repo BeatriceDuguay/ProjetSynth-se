@@ -11,14 +11,8 @@
 ###          IMPORTATIONS           ###
 #######################################
 
-# pour la réinitialisation de la date dans le dateEdit
-from PyQt5.QtCore import QDate
-
 # importer la boîte de dialogue
 import dialogueProduitFilm
-
-# importer la boîte de dialogue FenetreDetailsEmprunt
-import FenetreDetailsEmprunt
 
 # importer la librairie QtWidgets de QtDesigner
 from PyQt5 import QtWidgets
@@ -26,26 +20,15 @@ from PyQt5 import QtWidgets
 # pour le gestionnaire d'événement
 from PyQt5.QtCore import pyqtSlot
 
-# importer la classe Produit
-from Produit import  *
-
 # importer la classe Film
-from Film import  *
+from DetailsEmprunt import DetailsEmprunt
 
-# importer la classe Livre
-from Livre import  *
+from Emprunt import Emprunt
+from Film import Film
 
-# importer la classe Jeu
-from Jeu import  *
+# importer la liste liste_detail_emprunts
+from MesListes import liste_detail_emprunts
 
-# importer la classe Abonne
-from Abonne import  *
-
-# importer la classe Emprunt
-from Emprunt import  *
-
-# importer la classe DetailsEmprunt
-from DetailsEmprunt import  *
 
 ##########################################################
 ###  DÉCLARATIONS ET INITIALISATIONS - Portée globale  ###
@@ -61,6 +44,9 @@ from DetailsEmprunt import  *
 #####################################################
 
 # fonction qui permet de s'assurer que l'abonné n'est pas déjà dans la liste des abonnés
+from Produit import Produit
+
+
 def verifier_liste_emprunts(p_numero):
     """
     Vérifier si l'emprunt est déjà dans la liste des empunts
@@ -84,6 +70,10 @@ def cacher_labels_erreur(objet):
     Cacher les différents labels d'erreur
         :param objet:
     """
+    objet.label_erreurNumeroDetailEmpruntInexistant.setVisible(False)
+    objet.label_erreurNumeroDetailEmpruntInvalide.setVisible(False)
+    objet.label_erreurNumeroSerieInvalide.setVisible(False)
+    objet.label_erreurNumeroSerieInexistant.setVisible(False)
     objet.label_erreurSocieteProductionInvalide.setVisible(False)
     objet.label_erreurDureeFilmInvalide.setVisible(False)
     objet.label_erreurPrenomRealisateurInvalide.setVisible(False)
@@ -108,6 +98,121 @@ class FenetreFilm(QtWidgets.QDialog, dialogueProduitFilm.Ui_Dialog):
         self.setWindowTitle("Gestion des emprunts")
         # appel de la fonction cacher_labels_erreur
         cacher_labels_erreur(self)
+
+    # ajouter un film
+    @pyqtSlot()
+    def on_pushButton_ajouterFilm_clicked(self):
+        """
+        Gestionnaire d'événement pour le bouton ajouterFilm
+        """
+        try:
+            # instancier un objet DetailEmprunt pour le test
+            test_det_emprunt = DetailsEmprunt()
+            # instancier l'attribut NumeroDetailEmprunt de la classe DetailsEmprunt
+            test_det_emprunt.NumeroDetailEmprunt = self.lineEdit_numeroDetailEmprunt.text()
+            # si le NumeroDetailEmprunt est valide
+            if test_det_emprunt.NumeroDetailEmprunt == "":
+                self.lineEdit_numeroDetailEmprunt.clear()
+                self.label_erreurNumeroDetailEmpruntInvalide.setVisible(True)
+            else:
+                trouve = False
+                # pour chaque élément dans la liste liste_detail_emprunts
+                for elt in liste_detail_emprunts:
+                    # si le numéro du détail de l'emprunt est le même que celui du line edit
+                    if elt.NumeroDetailEmprunt == self.lineEdit_numeroDetailEmprunt.text():
+                        # l'objet instancier DetailsEmprunt fait parti de la liste
+                        detEmpruntBilio = elt
+                        trouve = True
+                        break
+
+                # si le numéro du détail de l'emprunt est inexistant
+                if trouve == False:
+                    self.label_erreurNumeroDetailEmpruntInexistant.setVisible(True)
+
+            # instancier un objet Produit pour le test
+            test_produit = Produit()
+            # instancier l'attribut NumeroSerie de la classe Produit
+            test_produit.NumeroSerie = self.lineEdit_numeroSerieProduit.text()
+            # si le NumeroSerie est valide
+            if test_produit.NumeroSerie == "":
+                self.lineEdit_numeroSerieProduit.clear()
+                self.label_erreurNumeroSerieInvalide.setVisible(True)
+            else:
+                trouve = False
+                # pour chaque élément dans la liste liste_detail_emprunts
+                for elt in liste_detail_emprunts:
+                    # si le numéro de série du produit est le même que celui du line edit
+                    if elt.Produit.NumeroSerie == self.lineEdit_numeroSerieProduit.text():
+                        # l'objet instancier Produit fait parti de la liste
+                        produitBiblio = elt
+                        trouve = True
+                        break
+
+                # si le numéro de série du produit est inexistant
+                if trouve == False:
+                    self.label_erreurNumeroSerieInexistant.setVisible(True)
+
+                else:
+                    # instancier l'attribut NumeroDetailEmprunt de la classe DetailsEmprunt
+                    detEmpruntBilio.NumeroDetailEmprunt = self.lineEdit_numeroDetailEmprunt.text()
+                    # instancier l'attribut NumeroSerie de la classe Produit
+                    produitBiblio.NumeroSerie = self.lineEdit_numeroSerieProduit.text()
+                    # instancier les attributs de la classe Film et l'objet Film
+                    filmBiblio = Film()
+                    filmBiblio.SocieteProduction = self.lineEdit_societeProduction.text().capitalize()
+                    filmBiblio.DureeFilm = self.lineEdit_dureeFilm.text()
+                    filmBiblio.PrenomRealisateur = self.lineEdit_prenomRealisateur.text().capitalize()
+                    filmBiblio.NomRealisateur = self.lineEdit_nomRealisateur.text().capitalize()
+
+                    # si la société de production est invalide, afficher un message d'erreur et vider le line edit
+                    # de la société de production
+                    if filmBiblio.SocieteProduction == "":
+                        self.lineEdit_societeProduction.clear()
+                        self.label_erreurSocieteProductionInvalide.setVisible(True)
+
+                    # si la durée du film est invalide, afficher un message d'erreur et vider le line edit
+                    # de la durée du film
+                    if filmBiblio.DureeFilm == "":
+                        self.lineEdit_dureeFilm.clear()
+                        self.label_erreurDureeFilmInvalide.setVisible(True)
+
+                    # si le prénom du réalisateur est invalide, afficher un message d'erreur et vider le line edit du
+                    # prénom du réalisateur
+                    if filmBiblio.PrenomRealisateur == "":
+                        self.lineEdit_prenomRealisateur.clear()
+                        self.label_erreurPrenomRealisateurInvalide.setVisible(True)
+
+                    # si le nom du réalisateur est invalide, afficher un message d'erreur et vider le line edit
+                    # du nom du réalisateur
+                    if filmBiblio.NomRealisateur == "":
+                        self.lineEdit_nomRealisateur.clear()
+                        self.label_erreurNomRealisateurInvalide.setVisible(True)
+
+                    # si toutes les infos entrées sont valides
+                    if produitBiblio.NumeroSerie != "" and detEmpruntBilio.NumeroDetailEmprunt != "" and \
+                        filmBiblio.SocieteProduction != "" and filmBiblio.DureeFilm != "" and\
+                        filmBiblio.PrenomRealisateur != "" and filmBiblio.NomRealisateur != "":
+                        # Emprunt.ListeDetailsEmprunt = liste_detail_emprunts
+                        # pour chaque élément de la liste liste_detail_emprunts
+                        for elt in liste_detail_emprunts:
+                            # si le numéro du détail l'emprunt de la liste est le même que celui entré dans le line edit
+                            if elt.NumeroDetailEmprunt == self.lineEdit_numeroDetailEmprunt.text():
+                                # si le numéro de série de la liste est le même que celui entré dans le line edit
+                                if elt.Produit.NumeroSerie == self.lineEdit_numeroSerieProduit.text():
+                                    liste_detail_emprunts.append(filmBiblio)
+                                    break
+
+                        # vider les line edits
+                        self.lineEdit_numeroSerieProduit.clear()
+                        self.lineEdit_numeroDetailEmprunt.clear()
+                        self.lineEdit_societeProduction.clear()
+                        self.lineEdit_dureeFilm.clear()
+                        self.lineEdit_prenomRealisateur.clear()
+                        self.lineEdit_nomRealisateur.clear()
+
+        except Exception as ex:
+            print("Désolé, quelque chose ne s'est pas bien passé.", ex.args[0])
+
 
     # quitter la fenêtre FenetreFilm
     @pyqtSlot()
