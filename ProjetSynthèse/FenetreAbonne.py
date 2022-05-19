@@ -24,22 +24,11 @@ from PyQt5 import QtWidgets
 # pour le gestionnaire d'événement
 from PyQt5.QtCore import pyqtSlot
 
-# importer la classe Abonne
-import Abonne
-
 # importer la classe Emprunt
 from Emprunt import  *
 
-
-##########################################################
-###  DÉCLARATIONS ET INITIALISATIONS - Portée globale  ###
-##########################################################
-
-# déclarer une liste d'abonnés
-liste_abonnes = []
-# déclarer une liste d'emprunts
-liste_emprunt = []
-
+# importer la liste liste_abonnes
+from MesListes import liste_abonnes
 
 #######################################
 ###### DÉFINITIONS DES FONCTIONS ######
@@ -123,6 +112,7 @@ class FenetreAbonne(QtWidgets.QDialog, dialogueAbonne.Ui_Dialog):
         abonneBiblio.PrenomAbonne = self.lineEdit_prenomAbonne.text().capitalize()
         abonneBiblio.NomAbonne = self.lineEdit_nomAbonne.text().capitalize()
         abonneBiblio.DateNaissAbonne = self.dateEdit_dateNaissAbonne.date()
+        abonneBiblio.ListeEmprunts = []
         # appel de la fonction verifier_liste_abonnes
         verifier_abonne = verifier_liste_abonnes(abonneBiblio.NumeroAbonne)
 
@@ -130,7 +120,7 @@ class FenetreAbonne(QtWidgets.QDialog, dialogueAbonne.Ui_Dialog):
         if verifier_abonne is True:
             # effacer le line edit du numéro
             self.lineEdit_numeroAbonne.clear()
-            self.label_erreurNumeroAbonneInvalide.setVisible(True)
+            self.label_erreurNumeroAbonneExiste.setVisible(True)
 
         # si le numéro de l'abonné est invalide, afficher un message d'erreur et vider le line edit du numéro
         if abonneBiblio.NumeroAbonne == "":
@@ -187,7 +177,8 @@ class FenetreAbonne(QtWidgets.QDialog, dialogueAbonne.Ui_Dialog):
         # appel de la fonction verifier_liste_abonnes
         verifier_abonne = verifier_liste_abonnes(abonneBiblio.NumeroAbonne)
 
-        # si le numéro de l'abonné est valide, mais n'existe pas dans la liste des abonnés, afficher un message d'erreur
+        # si le numéro de l'abonné est valide, mais n'existe pas dans la liste des abonnés, afficher un
+        # message d'erreur
         if verifier_abonne is False and abonneBiblio.NumeroAbonne != "":
             # effacer le line edit du numéro
             self.lineEdit_numeroAbonne.clear()
@@ -259,13 +250,14 @@ class FenetreAbonne(QtWidgets.QDialog, dialogueAbonne.Ui_Dialog):
         # si le numéro, le prénom, le nom et la date de naissance de l'abonné sont valides et l'abonné existe dans la
         # liste d'abonnés
         if abonneBiblio.NumeroAbonne != "" and abonneBiblio.PrenomAbonne != "" and abonneBiblio.NomAbonne != "" and \
-                abonneBiblio.DateNaissAbonne != "" and verifier_abonne is True:
+            abonneBiblio.DateNaissAbonne != "" and verifier_abonne is True:
             for elt in liste_abonnes:
                 # chercher dans la liste des abonnés un abonné avec les infos entrées
                 if elt.NumeroAbonne == self.lineEdit_numeroAbonne.text() \
-                        and elt.PrenomAbonne == self.lineEdit_prenomAbonne.text().capitalize() \
-                        and elt.NomAbonne == self.lineEdit_nomAbonne.text().capitalize() \
-                        and elt.DateNaissAbonne == self.dateEdit_dateNaissAbonne.date():
+                    and elt.PrenomAbonne == self.lineEdit_prenomAbonne.text().capitalize() \
+                    and elt.NomAbonne == self.lineEdit_nomAbonne.text().capitalize() \
+                    and elt.DateNaissAbonne == self.dateEdit_dateNaissAbonne.date():
+                    # suprrimer l'abonné de la liste des abonnés
                     liste_abonnes.remove(elt)
                     # vider le texte browser
                     self.textBrowser_detailsAbonne.clear()
@@ -304,13 +296,20 @@ class FenetreAbonne(QtWidgets.QDialog, dialogueAbonne.Ui_Dialog):
     # afficher les abonnés
     @pyqtSlot()
     def on_pushButton_afficherAbonne_clicked(self):
-        """
-        Gestionnaire d'événement pour le bouton afficherAbonne
-        """
-        # afficher tous les abonnés de la liste dans le text browser
-        for elt in liste_abonnes:
-            self.textBrowser_detailsAbonne.append(elt.__str__())
 
+        # gérer les exceptions
+        try:
+            """
+            Gestionnaire d'événement pour le bouton afficherAbonne
+            """
+            # parcourir la liste des abonnés
+            for elt in liste_abonnes:
+                # afficher tous les abonnés de la liste dans le text browser
+                self.textBrowser_detailsAbonne.append(elt.__str__())
+
+        # afficher un message d'erreur et l'argument
+        except Exception as ex:
+            print("Erreur : AfficherAbonne ", ex.args[0])
 
 #################### CODE UTILISÉ: ###################
 # Fichier de code : Exercice 1 - Interface graphique #
@@ -336,9 +335,9 @@ class FenetreAbonne(QtWidgets.QDialog, dialogueAbonne.Ui_Dialog):
         if abonneBiblio.NumeroAbonne != "" and abonneBiblio.PrenomAbonne != "" and abonneBiblio.NomAbonne != "" and \
             abonneBiblio.DateNaissAbonne != "" :
             # séréaliser l'objet
-            resultat = abonneBiblio.serialiserAbonne("." + "/" + "Serealiser" + "/" + abonneBiblio.NumeroAbonne + "_"
-                                                     + abonneBiblio.PrenomAbonne + "_" + abonneBiblio.NomAbonne +
-                                                     ".json")
+            resultat = abonneBiblio.serialiserAbonne("." + "/" + "Serealiser abonnes" + "/" +
+                                                     abonneBiblio.NumeroAbonne + "_" + abonneBiblio.PrenomAbonne +
+                                                     "_" + abonneBiblio.NomAbonne + ".json")
             # si la séréalisation fonctionne
             if resultat == 0:
                 # vider les line edits
@@ -349,10 +348,11 @@ class FenetreAbonne(QtWidgets.QDialog, dialogueAbonne.Ui_Dialog):
             # sinon afficher des messages d'erreur
             elif resultat == 1:
                 # Afficher le message d'erreur d'écriture dans le fichier
-                self.textBrowser_detailsAbonne.setText("Erreur d'écriture")
+                self.label_erreurFichierAbonne.setText\
+                ("<font color=\"#aa0000\">Erreur d'écriture dans le fichier</font>")
             else:
                 # Afficher le message d'erreur d'ouverture du fichier
-                self.textBrowser_detailsAbonne.setText("Erreur d'ouverture")
+                self.label_erreurFichierAbonne.setText("<font color=\"#aa0000\">Erreur d'ouverture du fichier</font>")
 
         # si le numéro de l'abonné est invalide, afficher un message d'erreur et vider le line edit du numéro
         if abonneBiblio.NumeroAbonne == "":
@@ -394,11 +394,14 @@ class FenetreAbonne(QtWidgets.QDialog, dialogueAbonne.Ui_Dialog):
         try:
             with open("." + "/" + "listeAbonnes"+"/"+"ListeAbonnes.txt", "w") as fichier:
                 try :
+                    # ouvrir le fichier
                     fichier.write(chaine)
 
                 except :
+                    # afficher un message d'erreur d'écriture
                     self.textBrowser_detailsAbonne.setText("Erreur d'écriture")
         except :
+            # afficher un message d'erreur d'ouverture
             self.textBrowser_detailsAbonne.setText("Erreur d'ouverture")
 
 
