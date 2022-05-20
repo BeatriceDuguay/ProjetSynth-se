@@ -78,7 +78,7 @@ class DetailsEmprunt:
         """
         chaine =  " "*60+"\n"+"*"*60+"\n\n"
         chaine += "   Numéro du détail de l'emprunt : " + self.NumeroDetailEmprunt + "\n"
-        #chaine += Produit().__str__()
+        chaine += Produit().__str__()
         chaine += "   Quantité de produit : " + self.QuantiteProduit + "\n"
 
 

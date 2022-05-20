@@ -249,14 +249,22 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
             empruntBiblio.DateEmprunt = self.dateEdit_dateEmprunt.date()
             empruntBiblio.Succurcale = self.comboBox_succurcaleEmprunt.currentText()
             # appel de la fonction verifier_liste_emprunts
-            verifier_emprunt = verifier_liste_emprunts(empruntBiblio.NumeroEmprunt)
+            verifier_num_emprunt = verifier_liste_emprunts(empruntBiblio.NumeroEmprunt)
+            verifier_abonne_emprunt = verifier_liste_emprunts(empruntBiblio.Abonne.NumeroAbonne)
 
             # si le numéro de l'emprunt est valide, mais n'existe pas dans la liste des emprunts, afficher un
             # message d'erreur
-            if verifier_emprunt is False and empruntBiblio.NumeroEmprunt != "":
-                # vider le line edit du numéro
+            if verifier_num_emprunt is False and empruntBiblio.NumeroEmprunt != "":
+                # vider le line edit du numéro de l'emprunt
                 self.lineEdit_numeroEmprunt.clear()
                 self.label_erreurNumeroEmpruntInexistant.setVisible(True)
+
+            # si le numéro de l'abonné est valide, mais n'existe pas dans la liste des emprunts, afficher un
+            # message d'erreur
+            if verifier_abonne_emprunt is False and empruntBiblio.Abonne.NumeroAbonne != "":
+                # vider le line edit du numéro de l'abonné
+                self.lineEdit_numeroAbonneEmprunt.clear()
+                self.label_erreurNumeroAbonneExistePas.setVisible(True)
 
             # si le numéro de l'abonné est invalide, afficher un message d'erreur
             if empruntBiblio.Abonne.NumeroAbonne == "":
@@ -274,10 +282,11 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
             if empruntBiblio.DateEmprunt == "":
                 self.label_dateEmpruntInvalide.setVisible(True)
 
-            # si le numéro de l'abonné, le numéro de l'emprunt, la date de l'emprunt sont valides
-            # et l'emprunt existe dans la liste d'emprunts
+            # si le numéro de l'abonné, le numéro de l'emprunt, la date de l'emprunt sont valides,l'emprunt existe
+            # dans la liste d'emprunts et le numéro de l'abonné existe dans la liste des emprunts
             if empruntBiblio.Abonne.NumeroAbonne != "" and empruntBiblio.NumeroEmprunt != "" \
-                and empruntBiblio.DateEmprunt != "" and verifier_emprunt is True:
+                and empruntBiblio.DateEmprunt != "" and verifier_num_emprunt is True \
+                and verifier_abonne_emprunt is True:
                 # pour chaque élément dans la liste liste_emprunts
                 for elt in liste_emprunts:
                     # modifier les infos de l'emprunt

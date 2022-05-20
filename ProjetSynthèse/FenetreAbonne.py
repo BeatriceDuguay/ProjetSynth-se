@@ -379,11 +379,11 @@ class FenetreAbonne(QtWidgets.QDialog, dialogueAbonne.Ui_Dialog):
 # Par : Hasna Hocini                                 #
 ######################################################
 
-    # désérialiser la liste des abonnés
+    # sauvegarder un abonné
     @pyqtSlot()
-    def on_pushButton_deserialiserAbonne_clicked(self):
+    def on_pushButton_sauvegarderAbonne_clicked(self):
         """
-        Gestionnaire d'événement pour le bouton deserialiserAbonne
+        Gestionnaire d'événement pour le bouton sauvegarderAbonne
         """
         # création d'une chaine vide
         chaine = ""

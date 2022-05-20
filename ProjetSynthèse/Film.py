@@ -115,7 +115,7 @@ class Film (Produit):
             :return: Chaine à afficher
         """
         chaine =  " "*60+"\n"+"*"*60+"\n\n"
-        #chaine += Produit().__str__()
+        chaine += Produit().__str__()
         chaine += "   Société de production : " + self.SocieteProduction + "\n\n"
         chaine += "   Nom du réalisateur : " + self.PrenomRealisateur + " " + self.NomRealisateur + "\n\n"
         chaine += "   Durée du film : " + self.DureeFilm + " minutes" + "\n\n"
