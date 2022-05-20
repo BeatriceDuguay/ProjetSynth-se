@@ -105,36 +105,49 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
         cacher_labels_erreur(self)
 
 
+#################### CODE UTILISÉ: ###################
+# Fichier de code : Exercice 1 - Interface graphique #
+# Par : Hasna Hocini                                 #
+######################################################
+
     # ouvrir la fenêtre FenetreDetailsEmprunt
     @pyqtSlot()
     def on_pushButton_detailsEmprunt_clicked(self):
         """
         Gestionnaire d'événement pour le bouton detailsEmprunt
         """
-
         # gérer les exceptions
         try:
             # vider le text browser
             self.textBrowser_emprunt.clear()
-            # appel de la fonction cacher_labels_erreur
-            cacher_labels_erreur(self)
-            # instancier les attribut de la classe Abonne et l'objet Abonne
+            # instancier un objet Abonne pour le test
             test_abonne = Abonne()
+            # instancier l'attribut NumeroAbonne de la classe Abonne
             test_abonne.NumeroAbonne=self.lineEdit_numeroAbonneEmprunt.text()
-            # si le numéro de l'abonné est invalide,
+            # si le numéro de l'abonné est invalide, afficher un message d'erreur
             if test_abonne.NumeroAbonne == "":
-                self.label_erreurNumeroAbonneInvalide.setVisible(True)
+                # vider le line edit numeroAbonne
                 self.lineEdit_numeroAbonneEmprunt.clear()
+                self.label_erreurNumeroAbonneInvalide.setVisible(True)
             else :
                 trouve = False
+                # pour chaque élément de la liste liste_abonnes
                 for elt in liste_abonnes:
+                    # si le numéro de l'abonné est le même que celui du line edit
                     if elt.NumeroAbonne == self.lineEdit_numeroAbonneEmprunt.text():
+                        # l'objet instancier Abonne fait parti de la liste liste_abonnes
                         abonneBiblio = elt
                         trouve = True
                         break
+
+                # si l'abonné ne se trouve pas dans la liste des abonnés, afficher un messade d'erreur
                 if trouve == False:
+                    # vider le line edit numeroAbonneEmprunt
+                    self.lineEdit_numeroAbonneEmprunt.clear()
                     self.label_erreurNumeroAbonneExistePas.setVisible(True)
+
                 else:
+                    # instancier l'attribut NumeroAbonne de la classe Abonne
                     abonneBiblio.NumeroAbonne = self.lineEdit_numeroAbonneEmprunt.text()
                     # instancier les attributs de la classe Emprunt et l'objet Emprunt
                     empruntBiblio = Emprunt()
@@ -143,12 +156,13 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
                     empruntBiblio.Succurcale = self.comboBox_succurcaleEmprunt.currentText()
                     empruntBiblio.ListeDetailsEmprunt = liste_detail_emprunts
                     empruntBiblio.Abonne= abonneBiblio
+
                     # appel de la fonction verifier_liste_abonnes
                     verifier_abonne = verifier_liste_abonnes(abonneBiblio.NumeroAbonne)
 
                     # si le numéro de l'abonné n'existe pas dans la liste des abonnés, afficher un message d'erreur
                     if verifier_abonne is False and abonneBiblio.NumeroAbonne != "":
-                        # effacer le line edit du numéro
+                        # vider le line edit du numéro
                         self.lineEdit_numeroAbonneEmprunt.clear()
                         self.label_erreurNumeroAbonneExistePas.setVisible(True)
 
@@ -156,19 +170,19 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
                     verifier_emprunt = verifier_liste_emprunts(empruntBiblio.NumeroEmprunt)
                     # si le numéro de l'emprunt existe dans la liste des emprunts, afficher un message d'erreur
                     if verifier_emprunt is True and empruntBiblio.NumeroEmprunt != "":
-                        # effacer le line edit du numéro
+                        # vider le line edit du numéro
                         self.lineEdit_numeroEmprunt.clear()
                         self.label_erreurNumeroEmpruntExiste.setVisible(True)
 
-                    # si le numéro de l'abonné est invalide, afficher un message d'erreur et vider le line edit
-                    # du numéro
+                    # si le numéro de l'abonné est invalide, afficher un message d'erreur
                     if abonneBiblio.NumeroAbonne == "":
+                        # vider le line edit du numéro
                         self.lineEdit_numeroAbonneEmprunt.clear()
                         self.label_erreurNumeroAbonneInvalide.setVisible(True)
 
-                    # si le numéro de l'emprunt est invalide, afficher un message d'erreur et vider le line edit
-                    # du numéro
+                    # si le numéro de l'emprunt est invalide, afficher un message d'erreur
                     if empruntBiblio.NumeroEmprunt == "":
+                        # vider le line edit du numéro
                         self.lineEdit_numeroEmprunt.clear()
                         self.label_erreurNumeroEmpruntInvalide.setVisible(True)
 
@@ -188,14 +202,14 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
                             if elt.NumeroAbonne == self.lineEdit_numeroAbonneEmprunt.text():
                                 # ajouter l'emprunt à la liste des emprunts
                                 elt.ListeEmprunts.append(empruntBiblio)
+                                # afficher les infos de l'emprunt et de l'abonné dans le text browser
+                                self.textBrowser_emprunt.append(elt.__str__())
 
-                        # afficher les infos de l'emprunt et de l'abonné dans le text browser
-                        self.textBrowser_emprunt.append(elt.__str__())
+                                # vider les line edits
+                                self.lineEdit_numeroAbonneEmprunt.clear()
+                                self.lineEdit_numeroEmprunt.clear()
+                                self.dateEdit_dateEmprunt.setDate(QDate(2000, 1, 1))
 
-                        # vider les line edits
-                        self.lineEdit_numeroAbonneEmprunt.clear()
-                        self.lineEdit_numeroEmprunt.clear()
-                        self.dateEdit_dateEmprunt.setDate(QDate(2000, 1, 1))
 
                         # instancier la boîte de dialogue FenetreDetailsEmprunt
                         print("Bouton detailsEmprunt OK")
@@ -208,8 +222,13 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
 
         # afficher un message d'erreur et l'argument
         except Exception as ex:
-            print("Erreur : DetailsEmprunt ", ex.args[0])
+            print("Erreur (detailsEmprunt) : ", ex.args[0])
 
+
+#################### CODE UTILISÉ: ###################
+# Fichier de code : Exercice 1 - Interface graphique #
+# Par : Hasna Hocini                                 #
+######################################################
 
     # modifier un emprunt
     @pyqtSlot()
@@ -217,6 +236,7 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
         """
         Gestionnaire d'événement pour le bouton modifierEmprunt
         """
+        # gérer les exceptions
         try:
             # vider le text browser
             self.textBrowser_emprunt.clear()
@@ -234,16 +254,19 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
             # si le numéro de l'emprunt est valide, mais n'existe pas dans la liste des emprunts, afficher un
             # message d'erreur
             if verifier_emprunt is False and empruntBiblio.NumeroEmprunt != "":
+                # vider le line edit du numéro
                 self.lineEdit_numeroEmprunt.clear()
                 self.label_erreurNumeroEmpruntInexistant.setVisible(True)
 
-            # si le numéro de l'abonné est invalide, afficher un message d'erreur et vider le line edit du numéro
+            # si le numéro de l'abonné est invalide, afficher un message d'erreur
             if empruntBiblio.Abonne.NumeroAbonne == "":
+                # vider le line edit du numéro
                 self.lineEdit_numeroAbonneEmprunt.clear()
                 self.label_erreurNumeroAbonneInvalide.setVisible(True)
 
-            # si le numéro de l'emprunt est invalide, afficher un message d'erreur et vider le line edit du numéro
+            # si le numéro de l'emprunt est invalide, afficher un message d'erreur
             if empruntBiblio.NumeroEmprunt == "":
+                # vider le line edit du numéro
                 self.lineEdit_numeroEmprunt.clear()
                 self.label_erreurNumeroEmpruntInvalide.setVisible(True)
 
@@ -255,9 +278,9 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
             # et l'emprunt existe dans la liste d'emprunts
             if empruntBiblio.Abonne.NumeroAbonne != "" and empruntBiblio.NumeroEmprunt != "" \
                 and empruntBiblio.DateEmprunt != "" and verifier_emprunt is True:
+                # pour chaque élément dans la liste liste_emprunts
                 for elt in liste_emprunts:
-                    # chercher dans la liste des emprunts un emprunt avec les infos entrées et modifier les infos de
-                    # l'emprunt
+                    # modifier les infos de l'emprunt
                     if elt.Abonne.NumeroAbonne == self.lineEdit_numeroAbonneEmprunt.text():
                         elt.NumeroEmprunt = self.lineEdit_numeroEmprunt.text()
                         elt.DateEmprunt = self.dateEdit_dateEmprunt.date()
@@ -272,9 +295,15 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
                 self.lineEdit_numeroEmprunt.clear()
                 self.dateEdit_dateEmprunt.setDate(QDate(2000, 1, 1))
 
+        # afficher un message d'erreur et l'argument
         except Exception as ex:
-            print("Blabla", ex.args[0])
+            print("Erreur (modifierEmprunt) : ", ex.args[0])
 
+
+#################### CODE UTILISÉ: ###################
+# Fichier de code : Exercice 1 - Interface graphique #
+# Par : Hasna Hocini                                 #
+######################################################
 
     # supprimer un emprunt
     @pyqtSlot()
@@ -282,6 +311,7 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
         """
         Gestionnaire d'événement pour le bouton supprimerEmprunt
         """
+        # gérer les exceptions
         try:
             # vider le text browser
             self.textBrowser_emprunt.clear()
@@ -295,17 +325,20 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
             empruntBiblio.Succurcale = self.comboBox_succurcaleEmprunt.currentText()
             # appel de la fonction verifier_liste_emprunts
             verifier_emprunt = verifier_liste_emprunts(empruntBiblio.NumeroEmprunt)
+            # appel de la fonction verifier_liste_abonnes
+            verifier_abonne = verifier_liste_abonnes(empruntBiblio.Abonne.NumeroAbonne)
 
-            # si le numéro de l'abonné, le numéro de l'emprunt, la date de l'emprunt sont valides
-            # et l'emprunt existe dans la liste d'emprunts
+            # si le numéro de l'abonné, le numéro de l'emprunt, la date de l'emprunt sont valides, l'emprunt existe
+            # dans la liste d'emprunts et l'abonne existe dans la liste des abonnés
             if empruntBiblio.Abonne.NumeroAbonne != "" and empruntBiblio.NumeroEmprunt != "" \
-                and empruntBiblio.DateEmprunt != "" and verifier_emprunt is True:
+                and empruntBiblio.DateEmprunt != "" and verifier_emprunt is True :
                 for elt in liste_emprunts:
                     # chercher dans la liste des emprunts un emprunt avec les infos entrées
                     if elt.Abonne.NumeroAbonne == self.lineEdit_numeroAbonneEmprunt.text() \
                         and elt.NumeroEmprunt == self.lineEdit_numeroEmprunt.text() \
                         and elt.DateEmprunt == self.dateEdit_dateEmprunt.date() \
                         and elt.Succurcale == self.comboBox_succurcaleEmprunt.currentText() :
+                        # supprimer l'emprunt de la liste liste_emprunts
                         liste_emprunts.remove(elt)
                         # vider le texte browser
                         self.textBrowser_emprunt.clear()
@@ -315,19 +348,23 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
                         self.dateEdit_dateEmprunt.setDate(QDate(2000, 1, 1))
                         break
             # si le numéro de l'abonné, le numéro de l'emprunt, la date de l'emprunt sont valides, mais
-            # l'emprunt n'existe pas dans la liste d'emprunts, afficher un message d'erreur et vider le line edit
+            # l'emprunt n'existe pas dans la liste d'emprunts et l'abonné n'existe pas dans la liste d'abonnés,
+            # afficher un message d'erreur
             if empruntBiblio.Abonne.NumeroAbonne != "" and empruntBiblio.NumeroEmprunt != "" \
-                and empruntBiblio.DateEmprunt != "" and verifier_emprunt is False:
+                and empruntBiblio.DateEmprunt != "" and verifier_emprunt is False and verifier_abonne is False:
+                # vider le line edit
                 self.lineEdit_numeroEmprunt.clear()
                 self.label_erreurNumeroEmpruntInexistant.setVisible(True)
 
-            # si le numéro de l'abonné est invalide, afficher un message d'erreur et vider le line edit du numéro
+            # si le numéro de l'abonné est invalide, afficher un message d'erreur
             if empruntBiblio.Abonne.NumeroAbonne == "":
+                # vider le line edit du numéro
                 self.lineEdit_numeroAbonneEmprunt.clear()
                 self.label_erreurNumeroAbonneInvalide.setVisible(True)
 
-            # si le numéro de l'emprunt est invalide, afficher un message d'erreur et vider le line edit du numéro
+            # si le numéro de l'emprunt est invalide, afficher un message d'erreur
             if empruntBiblio.NumeroEmprunt == "":
+                # vider le line edit du numéro
                 self.lineEdit_numeroEmprunt.clear()
                 self.label_erreurNumeroEmpruntInvalide.setVisible(True)
 
@@ -335,9 +372,15 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
             if empruntBiblio.DateEmprunt == "":
                 self.label_dateEmpruntInvalide.setVisible(True)
 
+        # afficher un message d'erreur et l'argument
         except Exception as ex:
-            print("Blabla", ex.args[0])
+            print("Erreur (supprimerEmprunt) : ", ex.args[0])
 
+
+#################### CODE UTILISÉ: ###################
+# Fichier de code : Exercice 1 - Interface graphique #
+# Par : Hasna Hocini                                 #
+######################################################
 
     # afficher un emprunt
     @pyqtSlot()
@@ -345,6 +388,7 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
         """
         Gestionnaire d'événement pour le bouton afficherEmprunt
         """
+        # gérer les exceptions
         try:
             # vider le text browser
             self.textBrowser_emprunt.clear()
@@ -398,8 +442,9 @@ class FenetreEmprunt(QtWidgets.QDialog, dialogueEmprunt.Ui_Dialog):
             if empruntBiblio.DateEmprunt == "":
                 self.label_dateEmpruntInvalide.setVisible(True)
 
+        # afficher un message d'erreur et l'argument
         except Exception as ex:
-            print("Blabla", ex.args[0])
+            print("Erreur : (afficherEmprunt) ", ex.args[0])
 
     # quitter la fenêtre FenetreEmprunt
     @pyqtSlot()

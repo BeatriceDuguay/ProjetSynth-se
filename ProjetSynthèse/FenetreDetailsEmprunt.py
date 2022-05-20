@@ -121,19 +121,27 @@ class FenetreDetailsEmprunt(QtWidgets.QDialog, dialogueDetailsEmprunt.Ui_Dialog)
         # appel de la fonction cacher_labels_erreur
         cacher_labels_erreur(self)
 
+
+#################### CODE UTILISÉ: ###################
+# Fichier de code : Exercice 1 - Interface graphique #
+# Par : Hasna Hocini                                 #
+######################################################
+
     # ouvrir la fenetre fenetreFilm ou fenetreJeu ou fenetreLivre
     @pyqtSlot()
     def on_pushButton_produit_clicked(self):
         """
         Gestionnaire d'événement pour le bouton produit
         """
+        # gérer les exceptions
         try:
             # instancier un objet Emprunt pour le test
             test_emprunt = Emprunt()
             # instancier l'attribut NumeroEmprunt de la classe Emprunt
             test_emprunt.NumeroEmprunt = self.lineEdit_numeroEmprunt.text()
-            # si le numéro de l'emprunt est invalide affichier un message d'erreur et vider le line edit
+            # si le numéro de l'emprunt est invalide affichier un message d'erreur
             if test_emprunt.NumeroEmprunt == "":
+                 # vider le line edit
                 self.lineEdit_numeroEmprunt.clear()
                 self.label_erreurNumeroEmpruntInvalide.setVisible(True)
             else:
@@ -147,8 +155,10 @@ class FenetreDetailsEmprunt(QtWidgets.QDialog, dialogueDetailsEmprunt.Ui_Dialog)
                         trouve = True
                         break
 
-                # si le numéro de l'emprunt est inexistant
+                # si l'emprunt ne se trouve pas dans la liste des emprunts, afficher un message d'erreur
                 if trouve == False:
+                    # vider le line edit numéro emprunt
+                    self.lineEdit_numeroEmprunt.clear()
                     self.label_erreurNumeroEmpruntInexistant.setVisible(True)
 
                 else:
@@ -182,48 +192,49 @@ class FenetreDetailsEmprunt(QtWidgets.QDialog, dialogueDetailsEmprunt.Ui_Dialog)
 
                     # si le numéro de série du produit existe dans la liste des produits, afficher un message d'erreur
                     if verifier_produits is True and produitBiblio.NumeroSerie !="":
-                        # effacer le line edit du numéro de série
+                        # vider le line edit du numéro de série
                         self.lineEdit_numeroSerieProduit.clear()
                         self.label_erreurNumeroSerieExiste.setVisible(True)
 
-                    # si le numéro du détail l'emprunt est invalide, afficher un message d'erreur et vider le line
-                    # edit du numéro
+                    # si le numéro du détail l'emprunt est invalide, afficher un message d'erreur
                     if detEmpruntBiblio.NumeroDetailEmprunt == "":
+                        # vider le line edit du numéro du détail de l'emprunt
                         self.lineEdit_numeroDetailEmprunt.clear()
                         self.label_erreurNumeroDetailEmpruntInvalide.setVisible(True)
 
-                    # si la quantité de produit est invalide, afficher un message d'erreur et vider le line edit
-                    # de la quantité
+                    # si la quantité de produit est invalide, afficher un message d'erreur
                     if detEmpruntBiblio.QuantiteProduit == "":
+                        # vider le line edit de la quantité
                         self.lineEdit_quantiteProduit.clear()
                         self.label_erreurQuantiteProduitInvalide.setVisible(True)
 
-                    # si le numéro de série est invalide, afficher un message d'erreur et vider le line edit du numéro
-                    # de série
+                    # si le numéro de série est invalide, afficher un message d'erreur
                     if produitBiblio.NumeroSerie == "":
+                        # vider le line edit du numéro de série
                         self.lineEdit_numeroSerieProduit.clear()
                         self.label_erreurNumeroSerieInvalide.setVisible(True)
 
-                    # si le titre du produit est invalide, afficher un message d'erreur et vider le line edit du titre
+                    # si le titre du produit est invalide, afficher un message d'erreur
                     if produitBiblio.TitreProduit == "":
+                        # vider le line edit du titre
                         self.lineEdit_titreProduit.clear()
                         self.label_erreurTitreProduitInvalide.setVisible(True)
 
-                    # si la langue d'origine est invalide, afficher un message d'erreur et vider le line edit
-                    # de la langue
-                    # d'origine
+                    # si la langue d'origine est invalide, afficher un message d'erreur
                     if produitBiblio.LangueOrigine == "":
+                        # vider le line edit de la langue d'origine
                         self.lineEdit_langueOrigineProduit.clear()
                         self.label_erreurLangueOrigineInvalide.setVisible(True)
 
-                    # si l'année de sortie est invalide, afficher un message d'erreur et vider le line edit
-                    # de l'année de sortie
+                    # si l'année de sortie est invalide, afficher un message d'erreur
                     if produitBiblio.AnneeSortie == "":
+                        # vider le line edit de l'année de sortie
                         self.lineEdit_anneeSortieProduit.clear()
                         self.label_erreurAnneeSortieInvalide.setVisible(True)
 
-                    # si le genre est invalide, afficher un message d'erreur et vider le line edit du genre
+                    # si le genre est invalide, afficher un message d'erreur
                     if produitBiblio.Genre == "":
+                        # vider le line edit du genre
                         self.lineEdit_genreProduit.clear()
                         self.label_erreurGenreProduitInvalide.setVisible(True)
 
@@ -234,8 +245,8 @@ class FenetreDetailsEmprunt(QtWidgets.QDialog, dialogueDetailsEmprunt.Ui_Dialog)
                         produitBiblio.TitreProduit != "" and produitBiblio.LangueOrigine != "" and \
                         produitBiblio.AnneeSortie != "" and produitBiblio.Genre != "" and \
                         verifier_detail_emprunt is False and verifier_produits is False:
+
                         detEmpruntBiblio.Produit = produitBiblio
-                        # ajouter l'objet instancié à la liste du détail d'emprunts
                         empruntBiblio.ListeDetailsEmprunt = liste_detail_emprunts
                         # pour chaque élément de la liste liste_emprunt
                         for elt in liste_emprunts:
@@ -280,8 +291,10 @@ class FenetreDetailsEmprunt(QtWidgets.QDialog, dialogueDetailsEmprunt.Ui_Dialog)
                             dialog.show()
                             reply=dialog.exec_()
                             print("Bouton produit (Livre) OK")
+
+        # afficher un message d'erreur et l'argument
         except Exception as ex:
-            print("Désolé, quelque chose ne s'est pas bien passé.", ex.args[0])
+            print(" Erreur (produit) : ", ex.args[0])
 
     # quitter la fenetre fenetreDetailsEmprunt
     @pyqtSlot()

@@ -93,19 +93,27 @@ class FenetreJeu(QtWidgets.QDialog, dialogueProduitJeu.Ui_Dialog):
         # appel de la fonction cacher_labels_erreur
         cacher_labels_erreur(self)
 
+
+#################### CODE UTILISÉ: ###################
+# Fichier de code : Exercice 1 - Interface graphique #
+# Par : Hasna Hocini                                 #
+######################################################
+
     # ajouter un jeu
     @pyqtSlot()
     def on_pushButton_ajouterJeu_clicked(self):
         """
         Gestionnaire d'événement pour le bouton ajouterJeu
         """
+        # gérer les exceptions
         try:
             # instancier un objet DetailEmprunt pour le test
             test_det_emprunt = DetailsEmprunt()
             # instancier l'attribut NumeroDetailEmprunt de la classe DetailsEmprunt
             test_det_emprunt.NumeroDetailEmprunt = self.lineEdit_numeroDetailEmprunt.text()
-            # si le NumeroDetailEmprunt est valide
+            # si le NumeroDetailEmprunt est invalide, afficher un message d'erreur
             if test_det_emprunt.NumeroDetailEmprunt == "":
+                # vider le line edit numeroDetailEmprunt
                 self.lineEdit_numeroDetailEmprunt.clear()
                 self.label_erreurNumeroDetailEmpruntInvalide.setVisible(True)
             else:
@@ -119,16 +127,19 @@ class FenetreJeu(QtWidgets.QDialog, dialogueProduitJeu.Ui_Dialog):
                         trouve = True
                         break
 
-                # si le numéro du détail de l'emprunt est inexistant
+                # si le numéro du détail de l'emprunt est inexistant, afficher un messade d'erreur
                 if trouve == False:
+                    # vide le line edit numeroDetailEmprunt
+                    self.lineEdit_numeroDetailEmprunt.clear()
                     self.label_erreurNumeroDetailEmpruntInexistant.setVisible(True)
 
             # instancier un objet Produit pour le test
             test_produit = Produit()
             # instancier l'attribut NumeroSerie de la classe Produit
             test_produit.NumeroSerie = self.lineEdit_numeroSerieProduit.text()
-            # si le NumeroSerie est valide
+            # si le NumeroSerie est invalide, afficher un message d'erreur
             if test_produit.NumeroSerie == "":
+                # vider le line edit numeroSerieProduit
                 self.lineEdit_numeroSerieProduit.clear()
                 self.label_erreurNumeroSerieInvalide.setVisible(True)
             else:
@@ -142,8 +153,10 @@ class FenetreJeu(QtWidgets.QDialog, dialogueProduitJeu.Ui_Dialog):
                         trouve = True
                         break
 
-                # si le numéro de série du produit est inexistant
+                # si le numéro ne se trouve pas dans la liste des détails d'emprunts, afficher un messade d'erreur
                 if trouve == False:
+                    # vider le line edit numeroSerieProduit
+                    self.lineEdit_numeroSerieProduit.clear()
                     self.label_erreurNumeroSerieInexistant.setVisible(True)
 
                 else:
@@ -157,14 +170,15 @@ class FenetreJeu(QtWidgets.QDialog, dialogueProduitJeu.Ui_Dialog):
                     jeuBiblio.MoteurJeu = self.lineEdit_moteurJeu.text()
                     jeuBiblio.ConsoleJeu = self.comboBox_consoleJeu.currentText()
 
-                    # si le développeur du jeu est invalide, afficher un message d'erreur et vider le line edit
-                    # de la société de production
+                    # si le développeur du jeu est invalide, afficher un message d'erreur
                     if jeuBiblio.DeveloppeurJeu == "":
+                        # vider le line edit de la société de production
                         self.lineEdit_developpeurJeu.clear()
                         self.label_erreurDeveloppeurJeuInvalide.setVisible(True)
 
-                    # si le moteur du jeu est invalide, afficher un message d'erreur et vider le line edit
+                    # si le moteur du jeu est invalide, afficher un message d'erreur
                     if jeuBiblio.MoteurJeu == "":
+                        # vider le line edit du moteur du jeu
                         self.lineEdit_moteurJeu.clear()
                         self.label_erreurMoteurJeuInvalide.setVisible(True)
 
@@ -173,10 +187,12 @@ class FenetreJeu(QtWidgets.QDialog, dialogueProduitJeu.Ui_Dialog):
                         jeuBiblio.DeveloppeurJeu != "" and jeuBiblio.MoteurJeu != "":
                         # pour chaque élément de la liste liste_detail_emprunts
                         for elt in liste_detail_emprunts:
-                            # si le numéro du détail l'emprunt de la liste est le même que celui entré dans le line edit
+                            # si le numéro du détail l'emprunt de la liste est le même que celui entré dans le
+                            # line edit
                             if elt.NumeroDetailEmprunt == self.lineEdit_numeroDetailEmprunt.text():
                                 # si le numéro de série de la liste est le même que celui entré dans le line edit
                                 if elt.Produit.NumeroSerie == self.lineEdit_numeroSerieProduit.text():
+                                    # ajouter l'objet instancié à la liste liste_detail_emprunts
                                     liste_detail_emprunts.append(jeuBiblio)
                                     break
 
@@ -187,7 +203,7 @@ class FenetreJeu(QtWidgets.QDialog, dialogueProduitJeu.Ui_Dialog):
                         self.lineEdit_developpeurJeu.clear()
 
         except Exception as ex:
-            print("Désolé, quelque chose ne s'est pas bien passé.", ex.args[0])
+            print("Erreur (ajouterJeu) : ", ex.args[0])
 
 
 

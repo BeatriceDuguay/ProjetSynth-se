@@ -93,19 +93,27 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
         # appel de la fonction cacher_labels_erreur
         cacher_labels_erreur(self)
 
+
+#################### CODE UTILISÉ: ###################
+# Fichier de code : Exercice 1 - Interface graphique #
+# Par : Hasna Hocini                                 #
+######################################################
+
     # ajouter un livre
     @pyqtSlot()
     def on_pushButton_ajouterLivre_clicked(self):
         """
         Gestionnaire d'événement pour le bouton ajouterLivre
         """
+        # gérer les exceptions
         try:
             # instancier un objet DetailEmprunt pour le test
             test_det_emprunt = DetailsEmprunt()
             # instancier l'attribut NumeroDetailEmprunt de la classe DetailsEmprunt
             test_det_emprunt.NumeroDetailEmprunt = self.lineEdit_numeroDetailEmprunt.text()
-            # si le NumeroDetailEmprunt est valide
+            # si le NumeroDetailEmprunt est invalide, afficher un message d'erreur
             if test_det_emprunt.NumeroDetailEmprunt == "":
+                # vider le line edit numeroDetailEmprunt
                 self.lineEdit_numeroDetailEmprunt.clear()
                 self.label_erreurNumeroDetailEmpruntInvalide.setVisible(True)
             else:
@@ -119,16 +127,19 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
                         trouve = True
                         break
 
-                # si le numéro du détail de l'emprunt est inexistant
+                # si le numéro du détail de l'emprunt est inexistant, afficher un messade d'erreur
                 if trouve == False:
+                    # vide le line edit numeroDetailEmprunt
+                    self.lineEdit_numeroDetailEmprunt.clear()
                     self.label_erreurNumeroDetailEmpruntInexistant.setVisible(True)
 
             # instancier un objet Produit pour le test
             test_produit = Produit()
             # instancier l'attribut NumeroSerie de la classe Produit
             test_produit.NumeroSerie = self.lineEdit_numeroSerieProduit.text()
-            # si le NumeroSerie est valide
+            # si le NumeroSerie est invalide, afficher un message d'erreur
             if test_produit.NumeroSerie == "":
+                # vider le line edit numeroSerieProduit
                 self.lineEdit_numeroSerieProduit.clear()
                 self.label_erreurNumeroSerieInvalide.setVisible(True)
             else:
@@ -142,8 +153,10 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
                         trouve = True
                         break
 
-                # si le numéro de série du produit est inexistant
+                # si le numéro ne se trouve pas dans la liste des détails d'emprunts, afficher un messade d'erreur
                 if trouve == False:
+                    # vider le line edit numeroSerieProduit
+                    self.lineEdit_numeroSerieProduit.clear()
                     self.label_erreurNumeroSerieInexistant.setVisible(True)
 
                 else:
@@ -158,23 +171,27 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
                     livreBiblio.NomAuteur = self.lineEdit_nomAuteur.text()
                     livreBiblio.NombrePages = self.lineEdit_nombrePages.text()
 
-                    # si la maison d'édition est invalide, afficher un message d'erreur et vider le line edit
+                    # si la maison d'édition est invalide, afficher un message d'erreur
                     if livreBiblio.MaisonEdition == "":
+                        # vider le line edit
                         self.lineEdit_maisonEdition.clear()
                         self.label_erreurMaisonEditionInvalide.setVisible(True)
 
-                    # si le prénom de l'auteur est invalide, afficher un message d'erreur et vider le line edit
+                    # si le prénom de l'auteur est invalide, afficher un message d'erreur
                     if livreBiblio.PrenomAuteur == "":
+                        # vider le line edit
                         self.lineEdit_prenomAuteur.clear()
                         self.label_erreurPrenomAuteurInvalide.setVisible(True)
 
-                    # si le nom de l'auteur est invalide, afficher un message d'erreur et vider le line edit
+                    # si le nom de l'auteur est invalide, afficher un message d'erreur
                     if livreBiblio.NomAuteur == "":
+                        # vider le line edit
                         self.lineEdit_nomAuteur.clear()
                         self.label_erreurNomAuteurInvalide.setVisible(True)
 
-                    # si le nombre de pages est invalide, afficher un message d'erreur et vider le line edit
+                    # si le nombre de pages est invalide, afficher un message d'erreur
                     if livreBiblio.NombrePages == "":
+                        # vider le line edit
                         self.lineEdit_nombrePages.clear()
                         self.label_erreurNombrePagesInvalide.setVisible(True)
 
@@ -189,6 +206,7 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
                             if elt.NumeroDetailEmprunt == self.lineEdit_numeroDetailEmprunt.text():
                                 # si le numéro de série de la liste est le même que celui entré dans le line edit
                                 if elt.Produit.NumeroSerie == self.lineEdit_numeroSerieProduit.text():
+                                    # ajouter l'objet instancié à la liste liste_detail_emprunts
                                     liste_detail_emprunts.append(livreBiblio)
                                     break
 
@@ -201,7 +219,7 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
                         self.lineEdit_nombrePages.clear()
 
         except Exception as ex:
-            print("Désolé, quelque chose ne s'est pas bien passé.", ex.args[0])
+            print("Erreur (ajouterLivre) : ", ex.args[0])
 
 
 #################### CODE UTILISÉ: ###################
@@ -215,16 +233,15 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
         """
         Gestionnaire d'événement pour le bouton serealiserLivre
         """
+        # gérer les exceptions
         try:
-            # appel de la fonction cacher_labels_erreur
-            cacher_labels_erreur(self)
-
             # instancier un objet DetailEmprunt pour le test
             test_det_emprunt = DetailsEmprunt()
             # instancier l'attribut NumeroDetailEmprunt de la classe DetailsEmprunt
             test_det_emprunt.NumeroDetailEmprunt = self.lineEdit_numeroDetailEmprunt.text()
-            # si le NumeroDetailEmprunt est valide
+            # si le NumeroDetailEmprunt est invalide, afficher un message d'erreur
             if test_det_emprunt.NumeroDetailEmprunt == "":
+                # vider le line edit numeroDetailEmprunt
                 self.lineEdit_numeroDetailEmprunt.clear()
                 self.label_erreurNumeroDetailEmpruntInvalide.setVisible(True)
             else:
@@ -238,15 +255,19 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
                         trouve = True
                         break
 
-                # si le numéro du détail de l'emprunt est inexistant
+                # si le numéro du détail de l'emprunt est inexistant, afficher un messade d'erreur
                 if trouve == False:
+                    # vide le line edit numeroDetailEmprunt
+                    self.lineEdit_numeroDetailEmprunt.clear()
                     self.label_erreurNumeroDetailEmpruntInexistant.setVisible(True)
+
             # instancier un objet Produit pour le test
             test_produit = Produit()
             # instancier l'attribut NumeroSerie de la classe Produit
             test_produit.NumeroSerie = self.lineEdit_numeroSerieProduit.text()
-            # si le NumeroSerie est valide
+            # si le NumeroSerie est invalide, afficher un message d'erreur
             if test_produit.NumeroSerie == "":
+                # vider le line edit numeroSerieProduit
                 self.lineEdit_numeroSerieProduit.clear()
                 self.label_erreurNumeroSerieInvalide.setVisible(True)
             else:
@@ -256,18 +277,21 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
                     # si le numéro de série du produit est le même que celui du line edit
                     if elt.Produit.NumeroSerie == self.lineEdit_numeroSerieProduit.text():
                         # l'objet instancier Produit fait parti de la liste
+                        produitBiblio = elt
                         trouve = True
                         break
 
-                # si le numéro de série du produit est inexistant
+                # si le numéro ne se trouve pas dans la liste des détails d'emprunts, afficher un messade d'erreur
                 if trouve == False:
+                    # vider le line edit numeroSerieProduit
+                    self.lineEdit_numeroSerieProduit.clear()
                     self.label_erreurNumeroSerieInexistant.setVisible(True)
 
                 else:
                     # instancier l'attribut NumeroDetailEmprunt de la classe DetailsEmprunt
                     detEmpruntBilio.NumeroDetailEmprunt = self.lineEdit_numeroDetailEmprunt.text()
                     # instancier l'attribut NumeroSerie de la classe Produit
-
+                    produitBiblio.NumeroSerie = self.lineEdit_numeroSerieProduit.text()
                     # instancier les attributs de la classe Abonne et l'objet Abonne
                     livreBiblio = Livre()
                     livreBiblio.NumeroSerie = self.lineEdit_numeroSerieProduit.text()
@@ -280,7 +304,9 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
                     if livreBiblio.NumeroSerie !="" and livreBiblio.MaisonEdition != "" and \
                         livreBiblio.PrenomAuteur != "" and livreBiblio.NomAuteur != "" and \
                         livreBiblio.NombrePages != "":
+                        # pour chaque élément de la liste liste_detail_emprunts
                         for elt in liste_detail_emprunts:
+                            # si le numéro de série de la liste est le même que celui entré dans le line edit
                             if elt.Produit.NumeroSerie == self.lineEdit_numeroSerieProduit.text():
                                 elt = livreBiblio
                                 # séréaliser l'objet
@@ -298,12 +324,14 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
                                     self.lineEdit_nomAuteur.clear()
                                     self.lineEdit_nombrePages.clear()
                                 # sinon afficher des messages d'erreur
+
                                 elif resultat == 1:
-                                    # Afficher le message d'erreur d'écriture dans le fichier
+                                    # afficher le message d'erreur d'écriture dans le fichier
                                     self.label_erreurFichierLivre.setText\
                                     ("<font color=\"#aa0000\">Erreur d'écriture dans le fichier</font>")
+
                                 else:
-                                    # Afficher le message d'erreur d'ouverture du fichier
+                                    # afficher le message d'erreur d'ouverture du fichier
                                     self.label_erreurFichierLivre.setText\
                                         ("<font color=\"#aa0000\">Erreur d'ouverture du fichier</font>")
 
@@ -328,7 +356,7 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
                         self.label_erreurNombrePagesInvalide.setVisible(True)
 
         except Exception as ex:
-            print("Blabla", ex.args[0])
+            print("Erreur (serealiserLivre) : ", ex.args[0])
 
 
 #################### CODE UTILISÉ: ###################
@@ -338,25 +366,28 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
 
     # désérialiser la liste des abonnés
     @pyqtSlot()
-    def on_pushButton_deserialiserAbonne_clicked(self):
+    def on_pushButton_deserialiserLivre_clicked(self):
         """
-        Gestionnaire d'événement pour le bouton deserialiserAbonne
+        Gestionnaire d'événement pour le bouton deserialiserLivre
         """
         # création d'une chaine vide
-        # chaine = ""
-        # # pour chaque abonné dans la liste des abonnés
-        # for elt in liste_abonnes:
-        #     # ajouter les abonnés à la chaine
-        #     chaine += elt.__str__()
-        # try:
-        #     with open("." + "/" + "listeAbonnes"+"/"+"ListeAbonnes.txt", "w") as fichier:
-        #         try :
-        #             fichier.write(chaine)
-        #
-        #         except :
-        #             self.textBrowser_detailsAbonne.setText("Erreur d'écriture")
-        # except :
-        #     self.textBrowser_detailsAbonne.setText("Erreur d'ouverture")
+        chaine = ""
+        # pour chaque abonné dans la liste des abonnés
+        for elt in liste_detail_emprunts:
+            # ajouter les abonnés à la chaine
+            chaine += elt.__str__()
+        try:
+            with open("." + "/" + "listeLivres"+"/"+"ListeLivres.txt", "w") as fichier:
+                try :
+                    # ouvrir le fichier
+                    fichier.write(chaine)
+
+                except :
+                    # afficher un message d'erreur d'écriture
+                    self.textBrowser_detailsAbonne.setText("Erreur d'écriture")
+        except :
+            # afficher un message d'erreur d'ouverture
+            self.textBrowser_detailsAbonne.setText("Erreur d'ouverture")
 
 
 
