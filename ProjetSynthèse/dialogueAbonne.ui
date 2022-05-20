@@ -976,7 +976,7 @@ p, li { white-space: pre-wrap; }
     <string>Quitter</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_deserialiserAbonne">
+  <widget class="QPushButton" name="pushButton_sauvegarderAbonne">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -1029,7 +1029,7 @@ p, li { white-space: pre-wrap; }
     </font>
    </property>
    <property name="text">
-    <string>Désérialiser</string>
+    <string>Sauvegarder</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_serealiserAbonne">

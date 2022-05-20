@@ -768,7 +768,7 @@
     <string>Ajouter</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_deserialiserLivre">
+  <widget class="QPushButton" name="pushButton_sauvegarderLivre">
    <property name="geometry">
     <rect>
      <x>600</x>
@@ -821,7 +821,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Désérialiser</string>
+    <string>Sauvegarder</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_serealiserLivre">
