@@ -22,8 +22,8 @@ from PyQt5 import QtWidgets
 # pour le gestionnaire d'événement
 from PyQt5.QtCore import pyqtSlot, QDate
 
-# importer la liste liste_detail_emprunts
-from MesListes import liste_detail_emprunts
+# importer la liste liste_detail_emprunts et la liste liste_livres
+from MesListes import liste_detail_emprunts, liste_livres
 
 # importer la classe Livre
 from Livre import  *
@@ -208,6 +208,7 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
                                 if elt.Produit.NumeroSerie == self.lineEdit_numeroSerieProduit.text():
                                     # ajouter l'objet instancié à la liste liste_detail_emprunts
                                     liste_detail_emprunts.append(livreBiblio)
+                                    liste_livres.append(livreBiblio)
                                     break
 
                         # vider les line edits
@@ -355,6 +356,7 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
                         self.lineEdit_nombrePages.clear()
                         self.label_erreurNombrePagesInvalide.setVisible(True)
 
+        # afficher un message d'erreur et l'argument
         except Exception as ex:
             print("Erreur (serealiserLivre) : ", ex.args[0])
 
@@ -364,31 +366,36 @@ class FenetreLivre(QtWidgets.QDialog, dialogueProduitLivre.Ui_Dialog):
 # Par : Hasna Hocini                                 #
 ######################################################
 
-    # désérialiser la liste des abonnés
+    # sauvegarder un livre
     @pyqtSlot()
-    def on_pushButton_deserialiserLivre_clicked(self):
+    def on_pushButton_sauvegarderLivre_clicked(self):
         """
-        Gestionnaire d'événement pour le bouton deserialiserLivre
+        Gestionnaire d'événement pour le bouton sauvegarderLivre
         """
-        # création d'une chaine vide
-        chaine = ""
-        # pour chaque abonné dans la liste des abonnés
-        for elt in liste_detail_emprunts:
-            # ajouter les abonnés à la chaine
-            chaine += elt.__str__()
         try:
-            with open("." + "/" + "listeLivres"+"/"+"ListeLivres.txt", "w") as fichier:
-                try :
-                    # ouvrir le fichier
-                    fichier.write(chaine)
+            # création d'une chaine vide
+            chaine = ""
+            # pour chaque livre dans la liste des livres
+            for elt in liste_livres:
+                # ajouter les livres à la chaine
+                chaine += elt.__str__()
+            try:
+                with open("." + "/" + "listeLivres"+"/"+"ListeLivres.txt", "w") as fichier:
+                    try :
+                        # ouvrir le fichier
+                        fichier.write(chaine)
 
-                except :
-                    # afficher un message d'erreur d'écriture
-                    self.textBrowser_detailsAbonne.setText("Erreur d'écriture")
-        except :
-            # afficher un message d'erreur d'ouverture
-            self.textBrowser_detailsAbonne.setText("Erreur d'ouverture")
+                    except :
+                        # afficher un message d'erreur d'écriture
+                        self.label_erreurFichierAbonne.setText\
+                        ("<font color=\"#aa0000\">Erreur d'écriture dans le fichier</font>")
+            except :
+                # afficher un message d'erreur d'ouverture
+                self.label_erreurFichierAbonne.setText("<font color=\"#aa0000\">Erreur d'ouverture du fichier</font>")
 
+        # afficher un message d'erreur et l'argument
+        except Exception as ex:
+            print("Erreur (sauvegarderLivre) : ", ex.args[0])
 
 
     # quitter la fenêtre FenetreLivre
