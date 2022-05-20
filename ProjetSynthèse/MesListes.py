@@ -19,4 +19,7 @@ liste_detail_emprunts = []
 # déclaration de la liste liste_emprunt
 liste_emprunts = []
 
+# déclaration de la liste liste_livres
+liste_livres = []
+
 
